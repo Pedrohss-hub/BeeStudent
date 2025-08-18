@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    background-color: #e7ecef;
+}
+
+.main {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.void {
+    width: 200px;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+}
+
+
+.controls button {
+    color: #073763;
+    background-color: white;
+    font-size: 20px;
+    border: 1px white solid;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+
+
+.diaryTime {    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;  
+    width: 500px;
+    border-radius: 2px;
+}
+
+.diaryTime h1 {
+    text-align: center;
+    width: 100%;
+    color: white;
+    background-color: #073763;
+}
+
+.gradeDiaryTime {
+    width: 100%;
+    height: 20px;
+}
+
+.titleColuns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.diaryTime table {
+    border-collapse: collapse;
+    width: 100%;
+    gap: 10px;
+}
+
+.diaryTime th {
+    border: #e7ecef 1px solid;
+    background-color: #073763;
+    color: white;
+}
+
+/*
+.colIni{
+    width: 10px;
+}
+
+.colFim{
+    width: 1px;
+}
+
+.colPer{
+    width: 1px;
+}
+
+.colCat{
+    width: 1px;
+}
+
+.colTLiq{
+    width: 40px;
+}
+*/
+
+.diaryTime td {
+    width: 0px;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    border: #e7ecef 1px solid;
+
+}
+
+.diaryTime td input {
+    text-align: center;
+    width: 100%;
+    height: 22px;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    cursor: default;
+}
+
+.navBar {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    padding: 0px 50px;
+    gap: 20px
+}
+
+.navBar a {
+    text-decoration: none;
+    color: white;
+    background-color: #073763;
+    padding: 8px 18px;
+    border-radius: 2px;
+}
+
+
