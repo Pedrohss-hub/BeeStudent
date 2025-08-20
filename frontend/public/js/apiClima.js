@@ -24,8 +24,12 @@ buttonGetSeed.addEventListener('click', ()=>{
 
     getJson(URL).then((res)=>{
         const dateApi = res.hourly
-        const arrTemperature = dateApi.temperature_2m
+        const arrTemperature = dateApi.temperature_2m        
         const arrTime = dateApi.time
+        arrTime.forEach((element,index,arr) => {
+            arr[index] = adaptHour(element)
+        });
+
 
         const maxTemperature = Math.max(...arrTemperature)
         const indexMaxT = arrTemperature.findIndex(num=>num===maxTemperature)
@@ -36,13 +40,42 @@ buttonGetSeed.addEventListener('click', ()=>{
         const sizeHours = dateApi.time.length
         
 
-        console.log(`Temperatura Máxima: ${maxTemperature}ºC às ${adaptHour(arrTime[indexMaxT])}`)
-        console.log(`Temperatura Mínima: ${minTemprature}ºC às ${adaptHour(arrTime[indexMinT])}`)
+        console.log(`Temperatura Máxima: ${maxTemperature}ºC às ${arrTime[indexMaxT]}`)
+        console.log(`Temperatura Mínima: ${minTemprature}ºC às ${arrTime[indexMinT]}`)
+
+        new Chart(ctx, {
+        type: 'line', // tipos: 'bar', 'line', 'pie', 'doughnut', etc.
+        data: {
+            labels: arrTime,
+            datasets: [{
+            label: 'Temperatura',
+            data: arrTemperature,
+            backgroundColor: ['red', 'blue', 'green']
+            }]
+        },
+        options: {
+        scales: {
+            y: {
+                ticks: {
+                    callback: function(value) {
+                        return value + '°C'; // Adiciona °C a cada valor
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Temperatura (°C)' // Título do eixo
+                }
+            }
+        }
+    }
+        });
 
     })
 })
 
+const ctx = document.getElementById('meuGrafico');
 
+    
 /*
 
 let latitude = '-23.559454015626613'
