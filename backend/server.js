@@ -1,12 +1,43 @@
+const path = require('path')
+
+
+const fs = require('fs')
 const http = require('http');
 
-const hostname = '127.0.0.1';
+const hostname = '0.0.0.0';
 const port = 3000;
+
 
 const server = http.createServer((req, res) => {
     res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Olá, mundo!');
+
+    let frontDir = '../frontend'
+
+    let pathFile = req.url === '/'
+    ? path.join(frontDir,'index.html')
+    : path.join(frontDir, req.url)
+
+    let contentType = 'text/html'
+    switch (path.extname(pathFile)){
+        case ".css":
+            contentType = 'text/css'
+            break
+            
+        case ".js":
+            contentType = 'text/javascript'
+            break
+        
+        case ".ico":
+            contentType = 'image/x-ico'
+            break
+    }       
+
+    res.setHeader('Content-Type', contentType);
+    fs.readFile(pathFile,(err,data)=>{
+        if (err) throw err
+        res.end(data);
+    })
+    
 });
 
 server.listen(port, hostname, () => {
