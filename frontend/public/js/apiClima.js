@@ -75,42 +75,14 @@ buttonGetSeed.addEventListener('click', ()=>{
 
 const ctx = document.getElementById('meuGrafico');
 
-    
-/*
+//https://nominatim.org/release-docs/develop/api/Search/
 
-let latitude = '-23.559454015626613'
-let longitude = '-46.73140384604011'
-
-let URL = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,rain&timezone=America%2FSao_Paulo&forecast_days=2`
-
-async function getHtml(url) {
-    const promise = await fetch(url)
-    const json = await promise.json() 
+async function getLonLa(){
+    let dado = await fetch('https://nominatim.openstreetmap.org/search?q=Unter%20den%20Linden%201%20Berlin&format=json&addressdetails=1&limit=1&polygon_svg=1')
+    let json = await dado.json()
     return json
 }
 
-getHtml(URL).then((res)=>{
+getLonLa().then(res => {
     console.log(res)
-
-    let informationApi = res.hourly
-    let i = 0
-    let maxTemperatue = 100
-    let idOfMax = 0
-
-    
-    while(i < 68){
-        console.log(`${informationApi.time[i]} ${informationApi.temperature_2m[i]}ºC ${informationApi.rain[0]}`)
-        if (maxTemperatue > informationApi.temperature_2m[i]){
-            maxTemperatue = informationApi.temperature_2m[i]
-            idOfMax = i
-        }
-        i ++
-    }
-
-    console.log(`Temperatura máxima: ${maxTemperatue}`)
-    console.log(`${informationApi.time[idOfMax]} ${informationApi.temperature_2m[idOfMax]}ºC ${informationApi.rain[idOfMax]}`)
-    
-
 })
-
-*/
