@@ -1,26 +1,43 @@
 //Posteriormente ARRCLASSNAME vai ser uma variável Global Local
-let ARRCLASSNAME = ['cellIni','cellFim','cellPer','cellCat','cellTLiq'] // Especificar a qual coluna cada célula pertence
+let ARRCLASSNAME = ['ini','fim','per','cat','tliq'] // Especificar a qual coluna cada célula pertence
 
 //Variáveis Globais Local
 const TABLETIME = document.querySelector('.tableTime')
 let ROWS = 0
-let OBJALLROWS = {}
+let ARRALLROWS = []
 let OBJALLCELLS = {}
 let ALLCELLS = TABLETIME.querySelectorAll('.cellGrade')
 let HTMLALLROWS = TABLETIME.querySelectorAll('.rowGrade')
 
+//Atualizar BD
+function updateTabela_Horarios (idRow){
+    fetch("http://0.0.0.0:3000/api",{
+        method: "POST",
+        body: JSON.stringify({
+            row: ARRALLROWS[idRow-1] 
+        }),
+        headers:{
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+}
+
+//Atualizar Site
 
 
 //Adicionar linha e célula **Quebrar função em outras funções
 const appendRow = document.querySelector('.appendRow')
 appendRow.addEventListener('click', ()=> {
     ROWS += 1
+    let objCells = {}
+
     let creatingRow = document.createElement("tr")
     creatingRow.className = `rowGrade row${ROWS}`
 
     for(i=0;i<ARRCLASSNAME.length;i++){
         OBJALLCELLS[`${ARRCLASSNAME[i]}${ROWS}`] = new Object()
         let objCell = OBJALLCELLS[`${ARRCLASSNAME[i]}${ROWS}`]
+        objCells[`${ARRCLASSNAME[i]}`] = null
         objCell['valueInput'] = ''
         let creatingCell = document.createElement("td")
         let creatingInput = document.createElement("input")
@@ -29,12 +46,14 @@ appendRow.addEventListener('click', ()=> {
         
         if(i==2 || i == 3){
             objCell['valueInput'] = '-'
+            objCells[`${ARRCLASSNAME[i]}`] = null
             creatingInput.value = objCell['valueInput']
         }
         if(i==4){
             let zeroDate = new Date()
             zeroDate.setHours(0,0,0,0)
             objCell['valueInput'] = zeroDate
+            objCells[`${ARRCLASSNAME[i]}`] = '00:00'
             creatingInput.value = formatTime(objCell['valueInput'])
         }
             
@@ -42,12 +61,21 @@ appendRow.addEventListener('click', ()=> {
         creatingCell.appendChild(creatingInput)
         creatingRow.appendChild(creatingCell)
         appendListenerCell(creatingCell, i, ROWS)
+
+        //console.log(OBJALLCELLS[`${ARRCLASSNAME[i]}${ROWS}`])
+
     }
 
     TABLETIME.appendChild(creatingRow)
     ALLCELLS = document.querySelectorAll('.cellGrade')
     HTMLALLROWS = document.querySelectorAll('.rowGrade')
     appendListenerRow(creatingRow)
+
+    objCells["row"] = ROWS
+
+    ARRALLROWS.push(objCells)
+    
+    updateTabela_Horarios(ROWS)
 })
 
 //Remover linha
@@ -155,19 +183,6 @@ function transformingInputInDate (inputOfCell, classOfInput, row){
 function appendLastRow (){
     
 }
-
-/*
-let teste1 = new Date()
-console.log(teste1)
-
-let teste2 = new Date()
-teste2.setHours(teste2.getHours() + 3)
-
-console.log(teste2)
-
-console.log(`Diferença: ${(teste2.getTime()-teste1.getTime())/(1000*60*60)}`)
-*/
-
 
 
 
