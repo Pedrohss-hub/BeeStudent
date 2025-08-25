@@ -11,7 +11,7 @@ let HTMLALLROWS = TABLETIME.querySelectorAll('.rowGrade')
 
 //Atualizar BD
 function updateTabela_Horarios (idRow){
-    fetch("http://100.69.68.78:3000/api",{
+    fetch("http://localhost:3000/api",{
         method: "POST",
         body: JSON.stringify({
             row: ARRALLROWS[idRow-1] 
