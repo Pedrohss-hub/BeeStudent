@@ -1,3 +1,5 @@
+import ipServer from '../js/config.js'
+
 //Posteriormente ARRCLASSNAME vai ser uma variável Global Local
 let ARRCLASSNAME = ['ini','fim','per','cat','tliq'] // Especificar a qual coluna cada célula pertence
 
@@ -10,8 +12,9 @@ let ALLCELLS = TABLETIME.querySelectorAll('.cellGrade')
 let HTMLALLROWS = TABLETIME.querySelectorAll('.rowGrade')
 
 //Atualizar BD
+console.log(ipServer)
 function updateTabela_Horarios (idRow){
-    fetch("http://localhost:3000/api",{
+    fetch(`http://${ipServer}:3000/api`,{
         method: "POST",
         body: JSON.stringify({
             row: ARRALLROWS[idRow-1] 
@@ -34,7 +37,7 @@ appendRow.addEventListener('click', ()=> {
     let creatingRow = document.createElement("tr")
     creatingRow.className = `rowGrade row${ROWS}`
 
-    for(i=0;i<ARRCLASSNAME.length;i++){
+    for(let i=0;i<ARRCLASSNAME.length;i++){
         OBJALLCELLS[`${ARRCLASSNAME[i]}${ROWS}`] = new Object()
         let objCell = OBJALLCELLS[`${ARRCLASSNAME[i]}${ROWS}`]
         objCells[`${ARRCLASSNAME[i]}`] = null
