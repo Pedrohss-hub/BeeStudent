@@ -12,17 +12,41 @@ let ALLCELLS = TABLETIME.querySelectorAll('.cellGrade')
 let HTMLALLROWS = TABLETIME.querySelectorAll('.rowGrade')
 
 //Atualizar BD
-console.log(ipServer)
-function updateTabela_Horarios (idRow){
-    fetch(`http://${ipServer}:3000/api`,{
-        method: "POST",
-        body: JSON.stringify({
-            row: ARRALLROWS[idRow-1] 
-        }),
-        headers:{
-            "Content-type": "application/json; charset=UTF-8"
-        }
-    })
+
+updateTabela_Horarios(null, "GET")
+
+function updateTabela_Horarios (idRow, method){
+    async function getDataBD () {
+        const response = await fetch(`http://${ipServer}:3000/api`)
+        //const result = await response.json()
+        //console.log(result)
+        //return result
+        //console.log(response)
+        return response
+    }
+
+    switch (method){
+        case "POST":
+            fetch(`http://${ipServer}:3000/api`,{
+                method: "POST",
+                body: JSON.stringify({
+                    row: ARRALLROWS[idRow-1] 
+                }),
+                headers:{
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+        break;
+        case "GET":
+            getDataBD().then((res)=>{
+                let result = res.json()
+                console.log(result)
+            })
+        break;
+
+
+    }
+    
 }
 
 //Atualizar Site
@@ -78,7 +102,7 @@ appendRow.addEventListener('click', ()=> {
 
     ARRALLROWS.push(objCells)
     
-    updateTabela_Horarios(ROWS)
+    updateTabela_Horarios(ROWS, "POST")
 })
 
 //Remover linha

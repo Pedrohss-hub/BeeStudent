@@ -1,6 +1,6 @@
-import {insertTH} from '../controllers/controllers.js'
+import {insertTH, getAllRows} from '../controllers/controllers.js'
 
-export function apiIndex (req){
+export function apiIndex (req, res){
     let method = req.method
     let body = ''
 
@@ -9,6 +9,14 @@ export function apiIndex (req){
             body = await chunck.toString()
             body = await JSON.parse(body)
             insertTH(body.row)
+        })
+    }
+
+    if (method == "GET"){
+        getAllRows().then((response)=>{
+            //res.end(JSON.stringify({mesage:response}))
+        
+            res.end(JSON.stringify({mesage:"Teste"}))
         })
     }
 
