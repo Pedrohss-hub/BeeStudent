@@ -1,37 +1,71 @@
-const cheerio = require('cheerio')
-const URL = 'https://uspdigital.usp.br/jupiterweb/listarGradeCurricular?codcg=45&codcur=45024&codhab=4&tipo=N'
+import * as cheerio from 'cheerio'
+
+let URL = 'https://uspdigital.usp.br/jupiterweb/listarGradeCurricular?codcg=45&codcur=45024&codhab=4&tipo=N'
 
 async function getHtml(URL) {
-    const date = await fetch(URL);
-    const html = await date.text();
+    let date = await fetch(URL);
+    date = await date.arrayBuffer()
+    const decoder = new TextDecoder('iso-8859-1')
+    const html = decoder.decode(date);
     return html;
 }
 
 //Principais tópicos #658CCF
 
-getHtml(URL).then((res)=>{
-    let indexSubTitles = []
-    let indexHtml = res.indexOf('#658CCF')
-    
-    while(indexHtml !== -1){    
-        indexSubTitles.push(indexHtml)
+function indexSection (textHtml, keyWord){
+    let indexArr = []
+    let indexWord = textHtml.indexOf(keyWord)
 
-        indexHtml = res.indexOf('#658CCF', indexHtml + 1)
+    while(indexWord != -1){
+        indexArr.push(indexWord)
+        indexWord = textHtml.indexOf(keyWord, indexWord + 1)
     }
 
-    //console.log(indexSubTitles)
+    return indexArr
+}
+
+function getDiscipline (htmlCheerio, objPeriod){
+    let codDiscipline, nameDiscipline
+    htmlCheerio('tr.txt_verdana_8pt_gray').each((i,discipline)=>{
+        let bruteCod = htmlCheerio(discipline).find('td:eq(0)').text()
+        let bruteDiscipline = htmlCheerio(discipline).find('td:eq(1)').text()
+
+        //Tratando código disciplina
+        bruteCod = bruteCod.replace('\n', '')
+        codDiscipline = bruteCod.replace(/\s+/g, '')
+
+        //Tratando título discplina
+        bruteDiscipline = bruteDiscipline.split("").slice(1)
+        nameDiscipline = bruteDiscipline.join("")
+
+        objPeriod[i+1] = [codDiscipline,nameDiscipline]
+    })
+    return objPeriod
+
+}
+
+getHtml(URL).then((res)=>{
+    let indexSubTitles = indexSection(res, '#658CCF')
 
     const mainDiscipline = res.slice(indexSubTitles[0], indexSubTitles[0+1])
-
-
-    const $ = cheerio.load(mainDiscipline);
-
     
-    $('tr.txt_verdana_8pt_gray').each((i,discipline)=>{
-        const codDiscipline = $(discipline).find('td:eq(0)').text()
-        const nameDiscipline = $(discipline).find('td:eq(1)').text()
-        console.log(`${codDiscipline} ${nameDiscipline}`)
-    })
-      
+    let indexPeriod = indexSection(mainDiscipline,'Período')
+
+    let objPeriods = new Object
+
+    for (let c = 0; c < indexPeriod.length ; c++){
+        let objPeriod = new Object
+        let begin = indexPeriod[c]
+        let end =  indexPeriod[c+1]
+        let period = mainDiscipline.slice(begin, end)
+
+        period = cheerio.load("<table>"+period+"</table>")
+    
+        let objDisciplines = getDiscipline(period,objPeriod)
+
+        objPeriods[`period ${c+1} `] = objDisciplines
+    }
+
+    console.log(objPeriods)
     
 })
