@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio';
-
+import fs from 'fs';
 
 const urlUSP = 'https://uspdigital.usp.br/jupiterweb/jupColegiadoLista?tipo=D'
 
@@ -11,7 +11,7 @@ async function getHtml(URL) {
     return html;
 }
 
-async function getAllCourses() {
+export async function getAllCourses() {
     let objCourses = new Object()
     let result = []
 
@@ -51,60 +51,16 @@ async function getAllCourses() {
         }
     }
 
-    console.log(objCourses)
+    return objCourses
 }
 
+async function createJson() {
+    const jsonString = JSON.stringify(await getAllCourses(), null, 2)
 
-getAllCourses()
+    fs.writeFileSync("dados.json", jsonString)
 
-/*
-getHtml(urlUSP).then(res => {
-    //console.log(res)
-    let objCourses = new Object
+    //console.log("Salvo")
+}
 
-    let $ = cheerio.load(res)
+//createJson()
     
-    $('a.link_gray').each((i, link) => {
-
-        let unity = $(link).text().trim()
-        let href = $(link).attr('href')
-
-        getHtml(`https://uspdigital.usp.br/jupiterweb/${href}`).then(resp => {
-            let $ = cheerio.load(resp)
-
-            let hrefCourses = $('a.link_gray')[0]
-            hrefCourses = $(hrefCourses).attr('href')
-
-            getHtml(`https://uspdigital.usp.br/jupiterweb/${hrefCourses}`).then(respo => {
-                let $ = cheerio.load(respo)
-
-                let warning = $('span.txt_verdana_10pt_red')[0]
-                
-                if (warning == undefined) {
-                    //console.log([unity, `https://uspdigital.usp.br/jupiterweb/${hrefCourses}`])
-
-                    getHtml(`https://uspdigital.usp.br/jupiterweb/${hrefCourses}`).then(respon => {
-                        let $ = cheerio.load(respon)
-
-                        
-
-
-                        $('td > font > span > a.link_gray').each((i, course) => {
-                            let nameCourse = $(course).text().trim()
-                            let hrefCourse = $(course).attr('href')
-                            objCourses[unity][i] = [nameCourse, hrefCourse]
-                        })
-
-                    })
-                }
-
-            })
-
-        })
-    
-    })
-    //console.log('teste')
-
-    console.log(objCourses)
-})
-*/
