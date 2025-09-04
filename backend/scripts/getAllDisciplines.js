@@ -25,20 +25,25 @@ function indexSection (textHtml, keyWord){
 }
 
 function getDiscipline (htmlCheerio, objPeriod){
-    let codDiscipline, nameDiscipline
-    htmlCheerio('tr.txt_verdana_8pt_gray').each((i,discipline)=>{
-        let bruteCod = htmlCheerio(discipline).find('td:eq(0)').text()
-        let bruteDiscipline = htmlCheerio(discipline).find('td:eq(1)').text()
+    let codDiscipline, nameDiscipline, credAula, credTrab, CH, CE, CP, ATPA, EXT
+    let c = 0
+    htmlCheerio('tr.txt_verdana_8pt_gray').each((i,tr)=>{
+        codDiscipline = htmlCheerio(tr).find('td:eq(0)').text().trim()
 
-        //Tratando código disciplina
-        bruteCod = bruteCod.replace('\n', '')
-        codDiscipline = bruteCod.replace(/\s+/g, '')
+        if(codDiscipline != "ou"){
+            nameDiscipline = htmlCheerio(tr).find('td:eq(1)').text().trim()
+            credAula = htmlCheerio(tr).find('td:eq(2)').text().trim()
+            credTrab = htmlCheerio(tr).find('td:eq(3)').text().trim()
+            CH = htmlCheerio(tr).find('td:eq(4)').text().trim()
+            CE = htmlCheerio(tr).find('td:eq(5)').text().trim()
+            CP = htmlCheerio(tr).find('td:eq(6)').text().trim()
+            ATPA = htmlCheerio(tr).find('td:eq(7)').text().trim()
+            EXT = htmlCheerio(tr).find('td:eq(8)').text().trim()
 
-        //Tratando título discplina
-        bruteDiscipline = bruteDiscipline.split("").slice(1)
-        nameDiscipline = bruteDiscipline.join("")
+            c++
+            objPeriod[c] = {"Nome":nameDiscipline,"Cod":codDiscipline,"credAula":credAula,"credTrab":credTrab,"CH":CH,"CE":CE,"CP":CP,"ATPA":ATPA,"EXT":EXT}
+        }
 
-        objPeriod[i+1] = [codDiscipline,nameDiscipline]
     })
     return objPeriod
 
@@ -69,5 +74,8 @@ await getHtml(URL).then((res)=>{
     }    
 })
 
+console.log(objPeriods)
 return objPeriods
 }
+
+getAllDisciplines("https://uspdigital.usp.br/jupiterweb/listarGradeCurricular?codcg=48&codcur=48015&codhab=103&tipo=N")
