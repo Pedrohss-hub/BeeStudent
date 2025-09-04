@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio'
 
-let URL = 'https://uspdigital.usp.br/jupiterweb/listarGradeCurricular?codcg=45&codcur=45024&codhab=4&tipo=N'
-
+export async function getAllDisciplines (URL){
+ 
 async function getHtml(URL) {
     let date = await fetch(URL);
     date = await date.arrayBuffer()
@@ -44,14 +44,16 @@ function getDiscipline (htmlCheerio, objPeriod){
 
 }
 
-getHtml(URL).then((res)=>{
+let objPeriods
+
+await getHtml(URL).then((res)=>{
     let indexSubTitles = indexSection(res, '#658CCF')
 
     const mainDiscipline = res.slice(indexSubTitles[0], indexSubTitles[0+1])
     
     let indexPeriod = indexSection(mainDiscipline,'Período')
 
-    let objPeriods = new Object
+    objPeriods = new Object
 
     for (let c = 0; c < indexPeriod.length ; c++){
         let objPeriod = new Object
@@ -64,8 +66,8 @@ getHtml(URL).then((res)=>{
         let objDisciplines = getDiscipline(period,objPeriod)
 
         objPeriods[`period ${c+1} `] = objDisciplines
-    }
-
-    console.log(objPeriods)
-    
+    }    
 })
+
+return objPeriods
+}
