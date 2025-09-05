@@ -30,5 +30,5 @@ Thumbs.db
 
 
 #Dados
-backend/scripts/dataUSP.json
-backend/scripts/dados.json
+backend/scripts/scrapUsp/dataUSP.json
+backend/scripts/scrapUsp/dataCourses.json

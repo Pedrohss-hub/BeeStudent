@@ -57,7 +57,7 @@ export async function getAllCourses() {
 async function createJson() {
     const jsonString = JSON.stringify(await getAllCourses(), null, 2)
 
-    fs.writeFileSync("dados.json", jsonString)
+    fs.writeFileSync("dataCourses.json", jsonString)
 
     //console.log("Salvo")
 }
