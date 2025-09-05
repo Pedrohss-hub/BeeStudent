@@ -27,3 +27,8 @@ coverage/
 # Sistema
 .DS_Store
 Thumbs.db
+
+
+#Dados
+backend/scripts/dataUSP.json
+backend/scripts/dados.json

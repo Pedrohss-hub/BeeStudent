@@ -8,7 +8,7 @@ async function constructJson (){
     let objAllCourses = dados
 
     let dataUSP = new Object()
-
+    let c = 1
     for (const [nameUnity, objCourses] of Object.entries(objAllCourses)){
         console.log(nameUnity)
 
@@ -21,12 +21,13 @@ async function constructJson (){
 
             objUnity[nameUnity][nameCurse] = await getAllDisciplines(href)
             i++
-            //console.log(await getAllDisciplines(href))
         }
-        //console.log(objUnity)
 
         dataUSP[nameUnity] = objUnity[nameUnity]
-
+        console.log(`${c}/47`)
+        console.log(`${(c/47*100).toFixed(2)}%`)
+        console.log()
+        c++
     }
       
     return dataUSP
