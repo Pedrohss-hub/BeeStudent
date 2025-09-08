@@ -1,6 +1,6 @@
 import { getAllDisciplines } from "./getAllDisciplines.js";
 //import { getAllCourses } from "./getAllCourses.js";
-import dados from "./dados.json" with {type: "json"};
+import dados from "./dataCourses.json" with {type: "json"};
 import fs from 'fs';
 
 async function constructJson (){
