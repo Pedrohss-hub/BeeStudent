@@ -1,62 +1,14 @@
-<!DOCTYPE html>
-<html lang="Pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="public/css/style.css">
-
-    <link rel="shortcut icon" href="public/assets/favicon.ico" type="image/x-icon">
-
-    <title>BeeStudent</title>
-</head>
-<body>
-
-    <div class="main">
-
-        <div class="void"></div>
-
-        <div class="diaryTime">
-
-            <div class="gradeDiaryTime">
-                <table class="tableTime">
-                    <tr>
-                        <th class="colIni">Início</th>
-                        <th class="colFim">Fim</th>
-                        <th class="colPer" >Perdido</th>
-                        <th class="colCat">Categoria</th>
-                        <th class="colTLiq">T. Líq.</th>
-                    </tr>
-                    <!--
-                    <tr class="rowGrade row1">
-                        <td><input class="cellGrade cellIni cellF1" type="text"></td>
-                        <td><input class="cellGrade cellFim cellF1" type="text"></td>
-                        <td><input class="cellGrade cellPer cellF1" type="text"></td>
-                        <td><input class="cellGrade cellCat cellF1" type="text"></td>
-                        <td><input class="cellGrade cellTLiq cellF1" type="text"></td>
-                    </tr>
-                    -->
-                </table> 
-            </div>
-
-        </div>
-
-        <div class="controls">
-            <button class="removeRow">-</button>
-            <button class="appendRow">+</button>
-        </div>
-
-    </div>
-
-    <button class="button-hello">Hello World</button>
-
-    <nav class="navBar">
-        <a href="#">Index</a>
-        <a href="src/pages/statusCurso.html">Status</a>
-        <a href="src/pages/clima.html">Clima</a>
-
-    </nav>
-    <script type="module" src="public/js/table.js"></script>
-    <script type="module" src="public/js/apiTeste.js"></script>
-    <script type="module" src="public/js/config.js"></script>
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="./src/components/layout/fixeComponents/fixe-components.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>frontend</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
